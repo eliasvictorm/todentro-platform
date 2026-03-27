@@ -1,156 +1,215 @@
 # 🎉 TôDentro - Organizador de Eventos Colaborativo
 
-> Um aplicativo mobile completo para organizar roles em grupo, que centraliza criação de eventos, confirmação de participantes, votações, divisão de gastos e gerenciamento de tarefas.
+> Um app para organizar eventos em grupo. Centraliza criação de eventos, confirmação de participantes, votações, divisão de gastos e tarefas tudo em um só lugar.
+
+---
+
+## Visão
+
+**Simplificar a organização de eventos em grupo**, eliminando a fragmentação de informações em múltiplos canais (WhatsApp, email, redes sociais). Queremos ser a plataforma única e integrada onde grupos podem gerenciar tudo: desde confirmação de presença até divisão de gastos e organização de tarefas.
 
 ---
 
 ## 📋 Sobre o Projeto
 
-**TÔDentro** resolve o problema da desorganização no planejamento em grupo ao centralizar todas as informações do evento em um único aplicativo. A ferramenta organiza etapas como:
+**TÔDentro** centraliza todo o planejamento de eventos em grupo em uma única plataforma. Ao invés de informações espalhadas em várias conversas, usuários podem:
 
-- 📅 Criação e planejamento do evento
-- ✅ Confirmação de participantes
-- 🗳️ Votações e enquetes
-- 💰 Divisão de gastos e pagamentos
-- ✓ Tarefas e checklist
+- 📅 Criar e planejar eventos
+- ✅ Confirmar participantes
+- 🗳️ Fazer votações e enquetes
+- 💰 Controlar divisão de gastos
+- ✓ Organizar tarefas
 
-Tudo que normalmente fica disperso em conversas, agora está em um único lugar!
-
----
-
-## 👥 Integrantes do Grupo
-
-| Nome | Matrícula | Email | Curso |
-|------|-----------|-------|-------|
-| Carlos Nunes | 42320951 | carlitofilho695@gmail.com | Ciência da Computação |
-| Elias Victor de Jesus Cardoso Machado | 42415030 | elias.victor.dr@gmail.com | Ciência da Computação |
-| Gabriel de Carvalho Andrade | 42521801 | gabrielcarv712@gmail.com | Ciência da Computação |
-| Guilherme Ryan Costa Lana | 42412875 | Lanagui333@gmail.com | Ciência da Computação |
-| Isadora Ribeiro Eugênio | 42322274 | - | Ciência da Computação |
-| José Vieira Lopes Neto | 42413224 | jn038576@gmail.com | Ciência da Computação |
+O app oferece diferentes níveis de acesso - desde organizadores que gerenciam o evento até participantes e convidados - garantindo que cada um tenha as permissões necessárias para colaborar de forma organizada.
 
 ---
 
-## 🏗️ Stack Tecnológico
+## 🚀 Funcionalidades Principais
+
+✅ **Autenticação com JWT** - Login seguro e confiável  
+✅ **Criar e gerenciar eventos** - Defina data, local, descrição e convide participantes  
+✅ **Confirmação de presença** - Acompanhe quem confirmou presença em tempo real  
+✅ **Votações e enquetes** - Faça decisões em grupo de forma colaborativa  
+✅ **Divisão de gastos** - Controle automático de quem gastou e quanto cada um deve  
+✅ **Histórico de pagamentos** - Rastreie pagamentos e quem já quitou a dívida  
+✅ **Gerenciamento de tarefas** - Organize quem faz o quê antes e durante o evento  
+✅ **Notificações em tempo real** - Receba atualizações importantes do evento  
+✅ **Controle de permissões** - Cada papel tem seu nível de acesso apropriado  
+
+---
+
+## 🏗️ Arquitetura Mínima
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    CLIENTE (Flutter)                     │
+│  - Telas (Eventos, Votações, Gastos, Tarefas)          │
+│  - Estado (Provider)                                    │
+│  - Comunicação via HTTP/REST                             │
+└────────────────────┬────────────────────────────────────┘
+                     │ API REST
+                     │
+┌────────────────────▼────────────────────────────────────┐
+│            SERVIDOR (Java Spring Boot)                  │
+│  - Controllers (requisições HTTP)                       │
+│  - Services (lógica de negócio)                         │
+│  - Repositories (acesso dados)                          │
+│  - Security (JWT)                                       │
+└────────────────────┬────────────────────────────────────┘
+                     │ SQL
+                     │
+┌────────────────────▼────────────────────────────────────┐
+│            BANCO DE DADOS (PostgreSQL)                  │
+│  - Usuários, Eventos, Participantes                     │
+│  - Votações, Gastos, Tarefas                           │
+└─────────────────────────────────────────────────────────┘
+```
+
+**Fluxo Básico:**
+1. Cliente (Flutter) faz requisição autenticada com JWT
+2. Servidor (Spring Boot) valida e processa a requisição
+3. Banco de dados (PostgreSQL) armazena/recupera dados
+4. Servidor retorna resposta JSON ao cliente
+
+---
+
+## 🏗️ Tecnologias Utilizadas 
 
 ### **Backend**
-- **Java 17+** com **Spring Boot 3.x**
-- **Spring Data JPA** para acesso ao banco de dados
-- **Spring Security** com JWT para autenticação
-- **PostgreSQL** para persistência de dados
-- **API REST** com JSON
+- **Java 17** com **Spring Boot** - servidor da aplicação
+- **PostgreSQL** - banco de dados para armazenar eventos, usuários, gastos e tarefas
+- **JWT** - autenticação segura de usuários
+- **API REST** - comunicação com o app mobile
 
 ### **Frontend Mobile**
-- **Flutter (Dart)** para multiplataforma (iOS/Android)
-- **Provider** ou **Bloc** para gerenciamento de estado
-- **HTTP Client** para consumir API
-
-### **Infraestrutura**
-- **Git** para versionamento
-- **Postman** para testes de API
-
----
-
-## 🎯 Arquitetura do Projeto
-
-### **Backend (Spring Boot)**
-```
-backend/
-├── src/main/java/com/a3app/
-│   ├── controller/          # Endpoints REST
-│   │   ├── EventController
-│   │   ├── PaymentController
-│   │   ├── UserController
-│   │   ├── PollController
-│   │   └── TaskController
-│   ├── service/             # Lógica de negócio
-│   │   ├── EventService
-│   │   ├── PaymentService
-│   │   ├── UserService
-│   │   └── NotificationService
-│   ├── repository/          # Acesso a dados (Spring Data JPA)
-│   │   ├── EventRepository
-│   │   ├── PaymentRepository
-│   │   ├── UserRepository
-│   │   └── TaskRepository
-│   ├── entity/              # Modelos de dados
-│   │   ├── User
-│   │   ├── Event
-│   │   ├── Payment
-│   │   ├── Poll
-│   │   └── Task
-│   ├── dto/                 # Data Transfer Objects
-│   │   ├── EventDTO
-│   │   ├── PaymentDTO
-│   │   └── UserDTO
-│   ├── security/            # Configuração JWT e Security
-│   ├── config/              # Configurações gerais (CORS, etc)
-│   └── A3AppApplication.java
-├── pom.xml
-└── application.properties
-```
-
-### **Frontend (Flutter)**
-```
-flutter_app/
-├── lib/
-│   ├── screens/             # Telas do app
-│   │   ├── login_screen.dart
-│   │   ├── home_screen.dart
-│   │   ├── event_screen.dart
-│   │   ├── create_event_screen.dart
-│   │   ├── payment_screen.dart
-│   │   ├── poll_screen.dart
-│   │   └── task_screen.dart
-│   ├── models/              # Estruturas de dados
-│   │   ├── user_model.dart
-│   │   ├── event_model.dart
-│   │   ├── payment_model.dart
-│   │   └── task_model.dart
-│   ├── services/            # Requisições HTTP
-│   │   ├── api_service.dart
-│   │   ├── auth_service.dart
-│   │   ├── event_service.dart
-│   │   └── payment_service.dart
-│   ├── widgets/             # Componentes reutilizáveis
-│   │   ├── app_drawer.dart
-│   │   ├── event_card.dart
-│   │   └── payment_card.dart
-│   ├── providers/           # Gerenciamento de estado
-│   │   ├── user_provider.dart
-│   │   ├── event_provider.dart
-│   │   └── payment_provider.dart
-│   └── main.dart
-├── pubspec.yaml
-└── pubspec.lock
-```
+- **Flutter** - aplicativo para Android e iPhone
+- **Provider** - gerencia dados e estados da aplicação
 
 ---
 
 ## 👤 Papéis de Usuário
 
-### **Organizador**
-- Criar, editar e excluir eventos
-- Gerenciar participantes e co-organizadores
-- Acompanhar inscrições e confirmações
-- Delegar permissões administrativas
+- **Organizador**: Criar e gerenciar eventos, participantes e permissões
+- **Co-Organizador**: Auxiliar na gestão do evento
+- **Participante**: Visualizar eventos e confirmar presença
+- **Convidado**: Visualizar informações do evento e confirmar presença
 
-### **Co-Organizador**
-- Auxiliar na gestão do evento
-- Atualizar informações
-- Gerenciar participantes
-- Suporte entre organizadores
+---
 
-### **Participante**
-- Visualizar eventos disponíveis
-- Confirmar presença
-- Acompanhar detalhes do evento
-- Receber notificações
+## 📂 Estrutura de Pastas
 
-### **Convidado**
-- Visualizar informações do evento convidado
-- Confirmar ou recusar participação
-- Acesso restrito às informações
+```
+a3_app/
+├── backend/                    # Código do servidor (Java Spring Boot)
+│   ├── src/
+│   │   ├── main/java/
+│   │   │   ├── controller/     # Controladores REST
+│   │   │   ├── service/        # Lógica de negócio
+│   │   │   ├── repository/     # Acesso ao banco de dados
+│   │   │   ├── model/          # Entidades
+│   │   │   └── config/         # Configurações
+│   │   └── resources/
+│   └── pom.xml                 # Dependências Maven
+├── frontend/                   # Código do app mobile (Flutter)
+│   ├── lib/
+│   │   ├── screens/            # Telas da aplicação
+│   │   ├── widgets/            # Componentes reutilizáveis
+│   │   ├── models/             # Modelos de dados
+│   │   ├── services/           # Serviços e API
+│   │   ├── providers/          # Gerenciamento de estado
+│   │   └── main.dart           # Entrada da aplicação
+│   ├── test/                   # Testes
+│   └── pubspec.yaml            # Dependências Flutter
+├── docs/                       # Documentação do projeto
+├── README.md                   # Este arquivo
+└── projeto.txt                 # Pré-projeto
+```
+
+---
+
+## 🚀 Como Executar o Projeto
+
+### Pré-requisitos
+
+**Backend:**
+- Java 17 ou superior
+- Maven 3.8+
+- PostgreSQL 12+
+
+**Frontend:**
+- Flutter 3.0+
+- Dart 3.0+
+- Android Studio/Xcode (para emulador ou dispositivo)
+
+### Executar o Backend
+
+```bash
+# 1. Navegar para a pasta do backend
+cd backend/
+
+# 2. Configurar o banco de dados em application.yml
+# Editar os dados de conexão PostgreSQL se necessário
+
+# 3. Compilar o projeto
+mvn clean install
+
+# 4. Executar a aplicação
+mvn spring-boot:run
+
+# A API estará disponível em: http://localhost:8080
+```
+
+### Executar o Frontend (Flutter)
+
+```bash
+# 1. Navegar para a pasta do frontend
+cd frontend/
+
+# 2. Instalar dependências
+flutter pub get
+
+# 3. Executar em emulador ou dispositivo
+flutter run
+
+# Ou rodar em navegador (desenvolvimento)
+flutter run -d chrome
+```
+
+---
+
+## 🧪 Como Rodar Testes
+
+### Testes do Backend (JUnit + Mockito)
+
+```bash
+cd backend/
+
+# Executar todos os testes
+mvn test
+
+# Executar testes de uma classe específica
+mvn test -Dtest=NomeDoTest
+
+# Gerar relatório de cobertura (JaCoCo)
+mvn test jacoco:report
+# Relatório disponível em: target/site/jacoco/index.html
+```
+
+### Testes do Frontend (Flutter)
+
+```bash
+cd frontend/
+
+# Executar todos os testes unitários
+flutter test
+
+# Executar com cobertura
+flutter test --coverage
+
+# Gerar relatório de cobertura
+flutter test --coverage
+lcov --list coverage/lcov.info
+```
 
 ---
 
@@ -166,59 +225,22 @@ flutter_app/
 
 ---
 
-## 🔧 Como Começar
+## 👥 Integrantes do Grupo
 
-### **Pré-requisitos**
-- Java 17 ou superior
-- Maven
-- Docker (opcional)
-- Flutter SDK
-- Git
-
-### **Setup do Backend**
-```bash
-# Clonar repositório
-git clone <repo-url>
-cd backend
-
-# Instalar dependências
-mvn clean install
-
-# Executar aplicação (desenvolvimento)
-mvn spring-boot:run
-```
-
-### **Setup do Frontend**
-```bash
-# Ir para pasta do Flutter
-cd flutter_app
-
-# Instalar dependências
-flutter pub get
-
-# Rodar no emulador/dispositivo
-flutter run
-```
-
----
-
-## 🚀 Funcionalidades Principais
-
-✅ Autenticação segura com JWT  
-✅ Criação e gerenciamento de eventos  
-✅ Sistema de confirmação de participantes  
-✅ Votações e enquetes colaborativas  
-✅ Divisão automática de gastos  
-✅ Histórico de pagamentos  
-✅ Gerenciamento de tarefas  
-✅ Notificações em tempo real  
-✅ Controle de permissões por papel  
+| Nome | Matrícula | Email | Papel |
+|------|-----------|-------|-------|
+| Carlos Nunes | 42320951 | carlitofilho695@gmail.com | Backend |
+| Elias Victor de Jesus Cardoso Machado | 42415030 | elias.victor.dr@gmail.com | Frontend |
+| Gabriel de Carvalho Andrade | 42521801 | gabrielcarv712@gmail.com | Frontend |
+| Guilherme Ryan Costa Lana | 42412875 | Lanagui333@gmail.com | Frontend |
+| Isadora Ribeiro Eugênio | 42322274 | - | QA/Backend |
+| José Vieira Lopes Neto | 42413224 | jn038576@gmail.com | Backend
 
 ---
 
 ## 📄 Licença
 
-Este projeto é parte da disciplina de **Gestão e Qualidade de Software** da Universidade UNA.
+Este projeto é parte da disciplina de **Gestão e Qualidade de Software** da Universidade UNA dentro da UC Hub.
 
 ---
 
