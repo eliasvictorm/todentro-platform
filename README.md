@@ -233,7 +233,7 @@ lcov --list coverage/lcov.info
 | Elias Victor de Jesus Cardoso Machado | 42415030 | elias.victor.dr@gmail.com | Frontend |
 | Gabriel de Carvalho Andrade | 42521801 | gabrielcarv712@gmail.com | Frontend |
 | Guilherme Ryan Costa Lana | 42412875 | Lanagui333@gmail.com | Frontend |
-| Isadora Ribeiro Eugênio | 42322274 | - | QA/Backend | ribeiroisadora2004@gmail.com
+| Isadora Ribeiro Eugênio | 42322274 | ribeiroisadora2004@gmail.com | QA/Backend | 
 | José Vieira Lopes Neto | 42413224 | jn038576@gmail.com | Backend
 
 ---
