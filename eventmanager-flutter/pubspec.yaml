@@ -1,0 +1,41 @@
+name: todentro
+description: TôDentro - Organize seus rolês
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # HTTP
+  http: ^1.2.1
+
+  # State management
+  provider: ^6.1.2
+
+  # Local storage (token JWT)
+  shared_preferences: ^2.2.3
+
+  # Image picker (câmera e galeria)
+  image_picker: ^1.1.2
+
+  # Share link
+  share_plus: ^9.0.0
+
+  # Date formatting
+  intl: ^0.19.0
+
+  cupertino_icons: ^1.0.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  mockito: ^5.4.4
+  build_runner: ^2.4.9
+
+flutter:
+  uses-material-design: true
