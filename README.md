@@ -16,7 +16,6 @@
 
 - 📅 Criar e planejar eventos
 - ✅ Confirmar participantes
-- 🗳️ Fazer votações e enquetes
 - 💰 Controlar divisão de gastos
 - ✓ Organizar tarefas
 
@@ -26,15 +25,22 @@ O app oferece diferentes níveis de acesso - desde organizadores que gerenciam o
 
 ## 🚀 Funcionalidades Principais
 
-✅ **Autenticação com JWT** - Login seguro e confiável  
-✅ **Criar e gerenciar eventos** - Defina data, local, descrição e convide participantes  
-✅ **Confirmação de presença** - Acompanhe quem confirmou presença em tempo real  
-✅ **Votações e enquetes** - Faça decisões em grupo de forma colaborativa  
-✅ **Divisão de gastos** - Controle automático de quem gastou e quanto cada um deve  
-✅ **Histórico de pagamentos** - Rastreie pagamentos e quem já quitou a dívida  
-✅ **Gerenciamento de tarefas** - Organize quem faz o quê antes e durante o evento  
-✅ **Notificações em tempo real** - Receba atualizações importantes do evento  
-✅ **Controle de permissões** - Cada papel tem seu nível de acesso apropriado  
+- ✅ Cadastro e login com JWT
+- ✅ Criar/editar/excluir eventos
+- ✅ Foto de capa do evento (galeria ou câmera)
+- ✅ Geração de link de convite compartilhável
+- ✅ Convidar usuários por busca (nome/email)
+- ✅ Convidar por e-mail direto
+- ✅ Aceitar/recusar convites recebidos
+- ✅ Badge de convites pendentes na nav bar
+- ✅ Gerenciar participantes (adicionar/remover)
+- ✅ Marcar pagamento por participante
+- ✅ Cálculo de custo por pessoa
+- ✅ Checklist do rolê
+- ✅ Tela de gastos/débitos com split
+- ✅ Perfil do usuário com estatísticas
+- ✅ Busca e filtro por categoria
+- ✅ Pull-to-refresh em todas as listas
 
 ---
 
@@ -107,13 +113,11 @@ a3_app/
 │   │   │   ├── service/        # Lógica de negócio
 │   │   │   ├── repository/     # Acesso ao banco de dados
 │   │   │   ├── model/          # Entidades
-│   │   │   └── config/         # Configurações
 │   │   └── resources/
 │   └── pom.xml                 # Dependências Maven
 ├── frontend/                   # Código do app mobile (Flutter)
 │   ├── lib/
 │   │   ├── screens/            # Telas da aplicação
-│   │   ├── widgets/            # Componentes reutilizáveis
 │   │   ├── models/             # Modelos de dados
 │   │   ├── services/           # Serviços e API
 │   │   ├── providers/          # Gerenciamento de estado
@@ -132,7 +136,7 @@ a3_app/
 ### Pré-requisitos
 
 **Backend:**
-- Java 17 ou superior
+- Java 21 ou superior
 - Maven 3.8+
 - PostgreSQL 12+
 
@@ -219,9 +223,7 @@ lcov --list coverage/lcov.info
 2. **Tela Inicial** - Dashboard com grupos e eventos
 3. **Tela de Criação de Evento** - Formulário de eventos
 4. **Tela de Feed do Evento** - Data, local, participantes e postagens
-5. **Tela de Enquetes e Votações** - Decisões colaborativas
-6. **Tela de Divisão de Gastos** - Cálculo e pagamentos
-7. **Tela de Tarefas** - Checklist e organização
+5. **Tela de Divisão de Gastos** - Cálculo e pagamentos
 
 ---
 
