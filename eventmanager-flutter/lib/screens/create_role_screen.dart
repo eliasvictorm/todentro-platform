@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../models/models.dart';
 import '../providers/providers.dart';
 import 'invite_users_screen.dart';
+import 'package:flutter/foundation.dart';
 
 class CreateRoleScreen extends StatefulWidget {
   final Event? eventToEdit;
@@ -96,7 +97,14 @@ class _CreateRoleScreenState extends State<CreateRoleScreen> {
   Future<void> _getImage(ImageSource source) async {
     try {
       final picked = await ImagePicker().pickImage(source: source, maxWidth: 1200, imageQuality: 85);
-      if (picked != null && mounted) setState(() { _coverImage = File(picked.path); _coverImageUrl = null; });
+      if (picked != null && mounted) {
+        setState(() {
+          // Se for Web, salvamos apenas o arquivo com o caminho virtual.
+          // Se for celular, criamos o File normal do dart:io.
+          _coverImage = kIsWeb ? File(picked.path) : File(picked.path); 
+          _coverImageUrl = null;
+        });
+      }
     } catch (_) {
       if (!mounted) return;
       _snack('Erro ao selecionar imagem.');
@@ -217,7 +225,12 @@ class _CreateRoleScreenState extends State<CreateRoleScreen> {
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
                 border: Border.all(color: _pink.withOpacity(0.3), width: 1.5)),
             child: Stack(children: [
-              if (_coverImage != null) Positioned.fill(child: Image.file(_coverImage!, fit: BoxFit.cover))
+              if (_coverImage != null) 
+                Positioned.fill(
+                  child: kIsWeb
+                    ? Image.network(_coverImage!.path, fit: BoxFit.cover) // Se for Web, lê a URL temporária
+                    : Image.file(_coverImage!, fit: BoxFit.cover),        // Se for Celular, usa o arquivo normal
+                )
               else if (_coverImageUrl != null && _coverImageUrl!.isNotEmpty)
                 Positioned.fill(child: Image.network(_coverImageUrl!, fit: BoxFit.cover, errorBuilder:(_,__,___)=>_coverBg()))
               else _coverBg(),
