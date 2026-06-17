@@ -1,3 +1,5 @@
+import 'dart:io';                       
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/models.dart';
@@ -116,10 +118,26 @@ class _HomeScreenState extends State<HomeScreen> {
         boxShadow:[BoxShadow(color:Colors.black.withOpacity(0.07), blurRadius:12, offset:const Offset(0,4))]),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Stack(children: [
-          ClipRRect(borderRadius: const BorderRadius.vertical(top:Radius.circular(20)),
-            child: Container(height:160, width:double.infinity,
-              decoration: BoxDecoration(gradient: LinearGradient(colors:[_catColor(event.category).withOpacity(0.8),_catColor(event.category)])),
-              child: Center(child: Text(_emoji(event.category), style: const TextStyle(fontSize:48))))),
+          ClipRRect(
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+            child: Container(
+              height: 160,
+              width: double.infinity,
+              color: Colors.grey.shade200,
+              child: (() {
+                final hasCover = event.coverImageUrl != null && event.coverImageUrl!.isNotEmpty;
+                if (!hasCover) return _buildEmojiBg(event);
+
+                if (event.coverImageUrl!.startsWith('/')) {
+                  return kIsWeb
+                      ? Image.network(event.coverImageUrl!, fit: BoxFit.cover, errorBuilder: (_, __, ___) => _buildEmojiBg(event))
+                      : Image.file(File(event.coverImageUrl!), fit: BoxFit.cover, errorBuilder: (_, __, ___) => _buildEmojiBg(event));
+                }
+
+                return Image.network(event.coverImageUrl!, fit: BoxFit.cover, errorBuilder: (_, __, ___) => _buildEmojiBg(event));
+              })(),
+            ),
+          ),
           if (_isToday(event.date)) Positioned(top:12,right:12,child:Container(
             padding: const EdgeInsets.symmetric(horizontal:10,vertical:4),
             decoration: BoxDecoration(color:_pink, borderRadius:BorderRadius.circular(20)),
@@ -182,4 +200,15 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isToday(String date) { try { final d=DateTime.parse(date); final n=DateTime.now(); return d.year==n.year&&d.month==n.month&&d.day==n.day; } catch(_){return false;} }
   Color _catColor(String cat) => switch(cat){'Show'=>const Color(0xFF8B1A8B),'Conferência'=>const Color(0xFF1A4B8B),'Esporte'=>const Color(0xFF1A8B4B),'Workshop'=>const Color(0xFF8B5A1A),_=>const Color(0xFF8B1A4B)};
   String _emoji(String cat) => switch(cat){'Show'=>'🎵','Esporte'=>'⚽','Workshop'=>'🛠️','Conferência'=>'🎤',_=>'🎉'};
+
+Widget _buildEmojiBg(Event event) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(colors: [_catColor(event.category).withOpacity(0.8), _catColor(event.category)]), // <-- Parêntese corrigido aqui
+      ),
+      child: Center(child: Text(_emoji(event.category), style: const TextStyle(fontSize: 48))),
+    );
+  }
 }
+
+
